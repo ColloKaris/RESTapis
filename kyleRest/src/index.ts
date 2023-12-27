@@ -1,48 +1,35 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import {MongoClient} from 'mongodb'
+import { MongoClient } from 'mongodb';
 import { connectToDatabase } from './models/database.js';
 
 dotenv.config();
 
-
-
 // db connection
 const collection_name = 'subscribers';
-const dbname = "channel";
+const dbname = 'channel';
+let client:MongoClient;
 
-const sampleSubscribers = [
-  {
-    name: "Ada Lovelace",
-    age: 23,
-    city: "Nairobi",
-    country: "Kenya"
-  },
-  {
-    name: "John Doe",
-    age: 33,
-    city: "Kampala",
-    country: "Uganda"
-  }
-];
 
 //calls the connect to Database Method
 (async () => {
-  try{
-    const db = await connectToDatabase();
-    if(db) {
-      const collection = db.collection(collection_name);
-      let result = await collection.insertMany(sampleSubscribers)
+  let dbConnection = await connectToDatabase();
+  try {
+    if (dbConnection) {
+      client = dbConnection;
+      const collection = client.db(dbname).collection(collection_name);
+      let result = await collection.findOne();
+      console.log(result);
     }
-
   } catch (error) {
-    console.log(`An error has occurred ${error}`)
+    console.log(`An error has occurred ${error}`);
+  } finally {
+    if (dbConnection) {
+      await dbConnection.close();
+      console.log("Connection Closed");
+    }
   }
-})()
+})();
 
 
 
-
-// insert subscribers to the collection
-//const result = await subscribersCollection.insertMany(sampleSubscribers);
-//console.log(result);

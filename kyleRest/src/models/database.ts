@@ -27,7 +27,7 @@ export const connectToDatabase = async () => {
     app.listen(port, () => {
       console.log(`Listening on port ${port}`);
     })
-    return client.db(dbname); // returning client so that we can use it elsewehere
+    return client; // returning client so that we can use it elsewehere
   } catch (err) {
     console.log(`Error connecting to the database: ${err}`);
     //return callback(err);
