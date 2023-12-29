@@ -1,35 +1,35 @@
-import express from 'express';
-import dotenv from 'dotenv';
+import express, { Request, Response } from 'express';
 import { MongoClient } from 'mongodb';
-import { connectToDatabase } from './models/database.js';
+import dotenv from 'dotenv';
+import { connectToDatabase } from './models/dbConnect.js';
 
-dotenv.config();
+// execute express
+const app = express();
+const uri = 'mongodb://localhost:27017';
+const client = new MongoClient(uri);
+const dbName = "channel";
+const collectionName = "subscribers"
 
-// db connection
-const collection_name = 'subscribers';
-const dbname = 'channel';
-let client:MongoClient;
-
-
-//calls the connect to Database Method
-(async () => {
-  let dbConnection = await connectToDatabase();
+async function main(client: MongoClient) {
   try {
-    if (dbConnection) {
-      client = dbConnection;
-      const collection = client.db(dbname).collection(collection_name);
-      let result = await collection.findOne();
-      console.log(result);
-    }
-  } catch (error) {
-    console.log(`An error has occurred ${error}`);
+    await connectToDatabase(client);
+    const result = await findData();
+    console.log(result);
+    app.listen(3000, () => {
+      console.log('Listening on port 3000');
+    });
+    
+  } catch (err) {
+    console.error(err);
   } finally {
-    if (dbConnection) {
-      await dbConnection.close();
-      console.log("Connection Closed");
-    }
+    await client.close();
+    console.log("Database Connection Closed");
   }
-})();
+}
+main(client);
 
-
-
+//function to find data in the collection in the database
+async function findData(){
+  const result = await client.db(dbName).collection(collectionName).findOne();
+  return result;
+}
