@@ -1,21 +1,35 @@
-import dotenv from 'dotenv';
 import { MongoClient } from 'mongodb';
 
-dotenv.config();
+const uri = 'mongodb://localhost:27017';
+let client: MongoClient = new MongoClient(uri);
+const dbName = "channel";
+const collectionName = "subscribers"
 
-let uri: string;
 
 
-if(process.env.DATABASE_URI) {
-  uri = process.env.DATABASE_URI;
-}
-
-export const connectToDatabase = async(client:MongoClient) => {
+const connectToDatabase = async() => {
   try {
-    await client.connect();
-    console.log("CONNECTED TO THE DATABASE");
+    client = await MongoClient.connect(uri);
+    console.log("Connected to the database");
+    return client;
   } catch (err) {
     console.log("ERROR CONNECTING TO THE DATABASE")
     console.error(err);
+  }
+}
+
+
+
+export async function main() {
+  try {
+    const dbConnection = await connectToDatabase();
+    if(dbConnection) {
+
+    }
+  } catch (err) {
+    console.error(err);
+  } finally {
+    await client.close();
+    console.log("Database Connection Closed");
   }
 }
