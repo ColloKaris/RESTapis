@@ -1,0 +1,22 @@
+{
+  "name": "sessions",
+  "version": "1.0.0",
+  "description": "Sessions in express",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start:build": "tsc -w",
+    "start:run": "nodemon dist/index.js",
+    "start": "concurrently npm:start:*"
+  },
+  "author": "Collins Kariuki",
+  "license": "ISC",
+  "dependencies": {
+    "@types/express": "^4.17.21",
+    "@types/express-session": "^1.18.0",
+    "@types/node": "^20.11.30",
+    "concurrently": "^8.2.2",
+    "express": "^4.19.1",
+    "express-session": "^1.18.0"
+  }
+}
