@@ -1,0 +1,11 @@
+GET http://localhost:3000/feed/posts
+
+###
+
+POST http://localhost:3000/feed/posts
+Content-Type: application/json
+
+{
+  "title": "This is not a drill",
+  "content": "Are you sure it is not a drill?"
+}

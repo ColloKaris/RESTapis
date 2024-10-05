@@ -1,0 +1,25 @@
+{
+  "name": "maxrest",
+  "version": "1.0.0",
+  "description": "A simple rest api",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start:build": "tsc -w",
+    "start:run": "nodemon dist/index.js",
+    "start": "concurrently npm:start:*"
+  },
+  "author": "Collins Kariuki",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "express": "^4.21.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.7.4",
+    "concurrently": "^9.0.1"
+  }
+}
